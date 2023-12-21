@@ -17,7 +17,7 @@ long_description = open("README.MD", "r").read()
 
 setup(
     name="dacutil",
-    version="0.1.0",
+    version="0.1.1",
     author="attapon.th",
     maintainer="attapon.th",
     maintainer_email="attapon.4work@gmial.com",
