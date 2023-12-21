@@ -1,4 +1,4 @@
-from dacutil.datetime import date_today, datediff, new_dt
+from dacutil.dateutil import date_today, datediff, new_dt
 from dacutil.thai_mod11 import check_mod11
 from dacutil.config import get_config
 
