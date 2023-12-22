@@ -4,29 +4,6 @@ import pyarrow as pa
 import pandas as pd
 
 
-def now() -> datetime:
-    """
-    Generate a new datetime object.
-
-    Parameters:
-        s (Literal["now", "today"]): A string specifying the type of datetime object to generate. Default is "now".
-
-    Returns:
-        datetime: A datetime object representing the specified date and time.
-    """
-    return datetime.now()
-
-
-def today() -> datetime:
-    """
-    Get the current date.
-
-    Returns:
-        date: The current date.
-    """
-    return datetime.combine(date.today(), datetime.min.time())
-
-
 def datediff(
     start_dt: Union[pa.Array, pa.Scalar, pd.Series, date, datetime],
     ended_dt: Union[pa.Array, pa.Scalar, pd.Series, date, datetime],

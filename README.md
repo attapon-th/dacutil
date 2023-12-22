@@ -5,6 +5,10 @@
 ```bash
 pip install dacutil
 ```
+or dev
+```bash
+pip install git+https://github.com/attapon-th/dacutil@main
+```
 
 ## Usage
 
