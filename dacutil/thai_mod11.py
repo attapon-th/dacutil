@@ -28,21 +28,3 @@ def check_mod11(cid: str) -> bool:
     digit13: int = sum_num % 11  # หาเศษจากผลรวมที่ได้จากการคูณด้วย 11
     digit13 = (11 - digit13) % 10
     return int(cid13) == digit13
-
-
-def df_strip(df: DataFrame) -> DataFrame:
-    """
-    Trim space in string column
-
-    ตัดช่องว่าง หน้าหลังของคอลัมน์
-
-
-    Args:
-        df (DataFrame): DataFrame
-
-    Returns:
-        df (DataFrame): DataFrame
-    """
-    cols = df.select_dtypes(["string[pyarrow]", "string", "object"]).columns
-    df[cols] = df[cols].apply(lambda x: x.str.strip())
-    return df
