@@ -10,11 +10,11 @@ pip install dacutil
 
 ```python
 from dacutil import (
-    get_config,
     datediff,
+    today,
+    now,
+    get_config,
     check_mod11,
-    date_today,
-    new_dt,
     df_strip,
     worker,
 )
