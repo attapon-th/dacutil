@@ -1,5 +1,5 @@
 from addict import Dict as AdDict
-from urllib.parse import urlparse
+from urllib.parse import urlparse, ParseResult
 import os
 from configparser import ConfigParser
 import requests
@@ -10,9 +10,9 @@ def get_config(uri_of_file: str):
     uri = uri_of_file
 
     if "://" not in uri:
-        conf = get_config_file(uri)
+        conf: AdDict = get_config_file(uri)
     # <scheme>://<netloc>/<path>;<params>?<query>#<fragment>
-    u = urlparse(uri_of_file)
+    u: ParseResult = urlparse(uri_of_file)
     if u.scheme == "http" or u.scheme == "https":
         conf = get_config_url(uri)
     if u.scheme == "file":

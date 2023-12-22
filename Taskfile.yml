@@ -1,0 +1,26 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+    silent: true
+
+  update:
+    - poetry update
+
+  install:
+    - poetry install
+
+  build:
+    cmds:
+      - poetry build
+
+  publish:
+    cmds:
+      - poetry publish
