@@ -26,8 +26,10 @@ def datediff(
     fr_dt: Union[pa.Array, pa.Scalar]
     if isinstance(start_dt, pd.Series):
         fr_dt = pa.array(pa.array(start_dt), type=pa_type)
-    elif isinstance(start_dt, date) or isinstance(start_dt, datetime):
+    elif isinstance(start_dt, datetime):
         fr_dt = pa.scalar(start_dt, type=pa_type)
+    elif isinstance(start_dt, date):
+        fr_dt = pa.scalar(datetime.combine(start_dt, datetime.min.time()), type=pa_type)
     elif isinstance(start_dt, pa.Array) or isinstance(start_dt, pa.Scalar):
         fr_dt = start_dt
     else:
@@ -36,8 +38,10 @@ def datediff(
     to_dt: Union[pa.Array, pa.Scalar]
     if isinstance(ended_dt, pd.Series):
         to_dt = pa.array(pa.array(ended_dt), type=pa_type)
-    elif isinstance(ended_dt, date) or isinstance(ended_dt, datetime):
+    elif isinstance(ended_dt, datetime):
         to_dt = pa.scalar(ended_dt, type=pa_type)
+    elif isinstance(ended_dt, date):
+        to_dt = pa.scalar(datetime.combine(ended_dt, datetime.min.time()), type=pa_type)
     elif isinstance(ended_dt, pa.Array) or isinstance(ended_dt, pa.Scalar):
         to_dt = ended_dt
     else:
