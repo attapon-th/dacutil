@@ -1,7 +1,7 @@
 # Changelogs
 
 
-## [0.1.4]  2023-12-22
+## [0.1.5]  2023-12-22
 > - **Remove** function `new_dt`, `date_today`
 > - fix bug `datediff`
 > 
