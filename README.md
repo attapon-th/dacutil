@@ -12,7 +12,7 @@ pip install dacutil
 from dacutil import (
     get_config,
     datediff,
-    thai_mod11,
+    check_mod11,
     date_today,
     new_dt,
     df_strip,

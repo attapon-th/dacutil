@@ -4,7 +4,7 @@ import pyarrow as pa
 import pandas as pd
 
 
-def new_dt(s: Literal["now", "today"] = "now") -> datetime:
+def now() -> datetime:
     """
     Generate a new datetime object.
 
@@ -14,18 +14,17 @@ def new_dt(s: Literal["now", "today"] = "now") -> datetime:
     Returns:
         datetime: A datetime object representing the specified date and time.
     """
-    d = datetime.now()
-    return datetime(d.year, d.month, d.day, 0, 0, 0)
+    return datetime.now()
 
 
-def date_today() -> date:
+def today() -> datetime:
     """
     Get the current date.
 
     Returns:
         date: The current date.
     """
-    return date.today()
+    return datetime.combine(date.today(), datetime.min.time())
 
 
 def datediff(
@@ -67,7 +66,7 @@ def datediff(
     else:
         return pd.Series()
 
-    sr = pa.Array()
+    sr: pa.Array
     if scalar == "Y":
         sr = pa.compute.years_between(fr_dt, to_dt)
     elif scalar == "M":
