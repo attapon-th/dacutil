@@ -36,7 +36,7 @@ def get_config(
     conf = AdDict()
     uri: str = uri_of_file
 
-    if "://" not in uri:
+    if "://" in uri is False:
         uri = "file://" + os.path.realpath(uri)
 
     u: ParseResult = urlparse(uri)
