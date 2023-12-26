@@ -13,6 +13,7 @@ tasks:
 
   test:
     cmds:
+      - pip install .
       - poetry run pytest
 
   update:

@@ -1,7 +1,7 @@
 import os
 
 
-from addict import Dict as AdDict
+from addict import Addict
 from urllib.parse import urlparse, ParseResult
 from configparser import ConfigParser
 from typing import Tuple, Optional, Dict
@@ -17,7 +17,7 @@ def get_config(
     uri_of_file: str,
     basic_auth: Optional[Tuple[str, str]] = None,
     headers: Optional[Dict[str, str]] = None,
-) -> AdDict:
+) -> Addict:
     """
     Retrieves the configuration from a specified file or URL.
 
@@ -27,13 +27,13 @@ def get_config(
         headers (Optional[Dict[str, str]]): Optional headers to include in the request.
 
     Returns:
-        AdDict: The retrieved configuration as an `AdDict` object.
+        Addict: The retrieved configuration as an `Addict` object.
 
     Raises:
         ErrConfigSchemeNotSupport: If the URI scheme is not supported.
 
     """
-    conf = AdDict()
+    conf = Addict()
     uri: str = uri_of_file
 
     if "://" not in uri:
@@ -41,7 +41,7 @@ def get_config(
 
     u: ParseResult = urlparse(uri)
     if u.scheme in ["http", "https"]:
-        conf: AdDict = get_config_url(uri, basic_auth, headers)
+        conf: Addict = get_config_url(uri, basic_auth, headers)
     elif u.scheme == "file":
         conf = get_config_file(uri.replace("file://", ""))
     else:
@@ -50,16 +50,16 @@ def get_config(
     return conf
 
 
-def get_config_file(filepath: str) -> AdDict:
+def get_config_file(filepath: str) -> Addict:
     confparse = ConfigParser()
-    conf = AdDict()
+    conf = Addict()
     if os.path.exists(filepath):
         if filepath.endswith(".ini"):
             confparse.read(filepath)
-            conf = AdDict(dict(confparse._sections))  # type: ignore
+            conf = Addict(dict(confparse._sections))  # type: ignore
         elif filepath.endswith(".json"):
             with open(file=filepath, mode="r", encoding="utf-8") as f:
-                conf = AdDict(json.loads(f.read()))
+                conf = Addict(json.loads(f.read()))
     return conf
 
 
@@ -67,8 +67,8 @@ def get_config_url(
     url: str,
     basic_auth: Optional[Tuple[str, str]] = None,
     headers: Optional[Dict[str, str]] = None,
-) -> AdDict:
-    conf = AdDict()
+) -> Addict:
+    conf = Addict()
     bAuth: HTTPBasicAuth | None = HTTPBasicAuth(*basic_auth) if basic_auth else None
     r: Response = req_get(url, timeout=30, auth=bAuth, headers=headers)
 
@@ -76,9 +76,9 @@ def get_config_url(
         if url.endswith(".ini"):
             c = ConfigParser()
             c.read_string(r.text)
-            conf = AdDict(dict(c._sections))  # type: ignore
+            conf = Addict(dict(c._sections))  # type: ignore
         elif url.endswith(".json"):
-            conf = AdDict(r.json())
+            conf = Addict(r.json())
         else:
             raise ErrConfigSchemeNotSupport
     return conf

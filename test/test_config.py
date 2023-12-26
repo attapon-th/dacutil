@@ -2,9 +2,10 @@
 
 import pytest
 
-from addict import Dict as AdDict
+from addict import Dict as Addict
 
 from dacutil import (
+    Addict,
     datediff,
     get_config,
     check_mod11,
@@ -24,11 +25,11 @@ class TestGetConfig:
             "file://test/config.json",
             "file://test/config.json",
         ]
-        expected_config = AdDict({"section": {"key": "value"}})
+        expected_config = Addict({"section": {"key": "value"}})
         for filepath in files:
             # Act
             config = get_config(filepath)
 
             # Assert
-            assert isinstance(config, AdDict)
+            assert isinstance(config, Addict)
             assert config == expected_config
