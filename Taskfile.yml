@@ -11,6 +11,10 @@ tasks:
       - task --list-all
     silent: true
 
+  test:
+    cmds:
+      - poetry run pytest
+
   update:
     - poetry update
 

@@ -1,16 +1,13 @@
 import os
 
 
-from addict import Dict as adDict
+from addict import Dict as AdDict
 from urllib.parse import urlparse, ParseResult
 from configparser import ConfigParser
 from typing import Tuple, Optional, Dict
 from requests.auth import HTTPBasicAuth
 from requests import Response, get as req_get
-
-
-# Type alias for AdDict
-AdDict = adDict
+import json
 
 # error is config scheme not support
 ErrConfigSchemeNotSupport = Exception("Config scheme not support")
@@ -22,27 +19,28 @@ def get_config(
     headers: Optional[Dict[str, str]] = None,
 ) -> AdDict:
     """
-    Retrieves the configuration based on the provided URI of the file.
+    Retrieves the configuration from a specified file or URL.
 
-    Args:
-        uri_of_file (str): The URI of the file containing the configuration.
-        basic_auth (Tuple[str, str] | None, optional): The basic authentication credentials. Defaults to None.
-        headers (dict[str, str] | None, optional): The headers. Defaults to None.
+    Parameters:
+        uri_of_file (str): The URI of the file or URL from which to retrieve the configuration.
+        basic_auth (Optional[Tuple[str, str]]): Optional basic authentication credentials as a tuple of username and password.
+        headers (Optional[Dict[str, str]]): Optional headers to include in the request.
 
     Returns:
-        AdDict: An `AdDict` object representing the retrieved configuration.
+        AdDict: The retrieved configuration as an `AdDict` object.
+
+    Raises:
+        ErrConfigSchemeNotSupport: If the URI scheme is not supported.
+
     """
     conf = AdDict()
     uri: str = uri_of_file
 
-    # Check if the URI is a local file
     if "://" not in uri:
-        # set the scheme to file
         uri = "file://" + os.path.realpath(uri)
 
-    # <scheme>://<netloc>/<path>;<params>?<query>#<fragment>
-    u: ParseResult = urlparse(uri_of_file)
-    if u.scheme == "http" or u.scheme == "https":
+    u: ParseResult = urlparse(uri)
+    if u.scheme in ["http", "https"]:
         conf: AdDict = get_config_url(uri, basic_auth, headers)
     elif u.scheme == "file":
         conf = get_config_file(uri.replace("file://", ""))
@@ -54,11 +52,15 @@ def get_config(
 
 def get_config_file(filepath: str) -> AdDict:
     confparse = ConfigParser()
+    conf = AdDict()
     if os.path.exists(filepath):
-        confparse.read(filepath)
-        conf = AdDict(dict(confparse._sections))  # type: ignore
-        return conf
-    return AdDict()
+        if filepath.endswith(".ini"):
+            confparse.read(filepath)
+            conf = AdDict(dict(confparse._sections))  # type: ignore
+        elif filepath.endswith(".json"):
+            with open(file=filepath, mode="r", encoding="utf-8") as f:
+                conf = AdDict(json.loads(f.read()))
+    return conf
 
 
 def get_config_url(
@@ -80,3 +82,7 @@ def get_config_url(
         else:
             raise ErrConfigSchemeNotSupport
     return conf
+
+
+if __name__ == "__main__":
+    get_config("file://../test/config.ini")
