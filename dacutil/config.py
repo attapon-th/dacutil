@@ -3,11 +3,12 @@ import os
 
 from addict import Addict
 from urllib.parse import urlparse, ParseResult
-from configparser import ConfigParser
 from typing import Tuple, Optional, Dict
+from configobj import ConfigObj
 from requests.auth import HTTPBasicAuth
 from requests import Response, get as req_get
 import json
+from io import StringIO
 
 # error is config scheme not support
 ErrConfigSchemeNotSupport = Exception("Config scheme not support")
@@ -51,12 +52,11 @@ def get_config(
 
 
 def get_config_file(filepath: str) -> Addict:
-    confparse = ConfigParser()
     conf = Addict()
     if os.path.exists(filepath):
         if filepath.endswith(".ini"):
-            confparse.read(filepath)
-            conf = Addict(dict(confparse._sections))  # type: ignore
+            confparse = ConfigObj(filepath)
+            conf = Addict(dict(confparse.dict()))
         elif filepath.endswith(".json"):
             with open(file=filepath, mode="r", encoding="utf-8") as f:
                 conf = Addict(json.loads(f.read()))
@@ -74,9 +74,8 @@ def get_config_url(
 
     if r.status_code >= 200 and r.status_code < 300:
         if url.endswith(".ini"):
-            c = ConfigParser()
-            c.read_string(r.text)
-            conf = Addict(dict(c._sections))  # type: ignore
+            c = ConfigObj(StringIO(r.text))
+            conf = Addict(c.dict())
         elif url.endswith(".json"):
             conf = Addict(r.json())
         else:
