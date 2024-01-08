@@ -7,8 +7,6 @@ def df_strip(df: DataFrame) -> DataFrame:
 
     ตัดช่องว่าง หน้าหลังของคอลัมน์
 
-
-
     Args:
         df (DataFrame): DataFrame
 

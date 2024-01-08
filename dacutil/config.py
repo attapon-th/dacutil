@@ -83,5 +83,3 @@ def get_config_url(
     return conf
 
 
-if __name__ == "__main__":
-    get_config("file://../test/config.ini")
