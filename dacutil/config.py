@@ -1,7 +1,7 @@
 import os
 
 
-from addict import Addict
+from .addict import Addict
 from urllib.parse import urlparse, ParseResult
 from typing import Tuple, Optional, Dict
 from configobj import ConfigObj
@@ -81,5 +81,3 @@ def get_config_url(
         else:
             raise ErrConfigSchemeNotSupport
     return conf
-
-

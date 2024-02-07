@@ -1,7 +1,7 @@
 from pandas import DataFrame
 
 
-def df_strip(df: DataFrame) -> DataFrame:
+def df_strip(df: DataFrame, columns: list[str] | None = None) -> DataFrame:
     """
     Trim space in string column
 
@@ -13,6 +13,10 @@ def df_strip(df: DataFrame) -> DataFrame:
     Returns:
         df (DataFrame): DataFrame
     """
-    cols = df.select_dtypes(["string[pyarrow]", "string", "object"]).columns
-    df[cols] = df[cols].apply(lambda x: x.str.strip())
+    if columns is None:
+        columns = df.select_dtypes(["string"]).columns.tolist()
+    for col in columns:
+        if df[col].empty or not hasattr(df[col], "str"):
+            continue
+        df[col] = df[col].str.strip()
     return df

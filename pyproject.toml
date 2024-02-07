@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dacutil"
-version = "0.1.10"
+version = "0.2.1"
 description = "For Data Analytic"
 authors = ["Attapon Thanawong <attapon_srem@hotmail.com>"]
 readme = "README.md"
@@ -10,7 +10,6 @@ python = "^3.9"
 
 pandas = "^2.1.0"
 pyarrow = "^14.0.0"
-addict = "2.4.0"
 requests = "^2.31.0"
 configobj = "^5.0.0"
 
