@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dacutil"
-version = "0.2.1"
+version = "0.2.5"
 description = "For Data Analytic"
 authors = ["Attapon Thanawong <attapon_srem@hotmail.com>"]
 readme = "README.md"
@@ -8,10 +8,12 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.9"
 
-pandas = "^2.1.0"
-pyarrow = "^14.0.0"
-requests = "^2.31.0"
-configobj = "^5.0.0"
+pandas = ">=2.1.0"
+pyarrow = ">=14.0.0"
+requests = ">=2.31.0"
+configobj = ">=5.0.0"
+pyyaml = ">=6.0.0"
+tomli = ">=2.0.0"
 
 [build-system]
 requires = ["poetry-core"]

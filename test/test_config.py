@@ -23,7 +23,8 @@ class TestGetConfig:
             "test/config.json",
             "file://test/config.ini",
             "file://test/config.json",
-            "file://test/config.json",
+            "file://test/config.toml",
+            "file://test/config.yaml",
         ]
         expected_config = Addict({"section": {"key": "value"}})
         for filepath in files:
