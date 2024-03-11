@@ -6,7 +6,7 @@ from dacutil.worker import worker
 from dacutil.addict import Addict
 from dacutil import crypt
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 __all__ = [
     "Addict",

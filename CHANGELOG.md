@@ -1,6 +1,14 @@
 # Changelogs
 
 
+## [0.3.1]  2024-03-11
+> **Update** `encrypt_b64` add option `wrap` for wrapping encoded lines
+
+## [0.3.0]  2024-03-01
+> **Add** crypt function `from dacutil import crypt`
+>
+
+
 ## [0.1.5]  2023-12-22
 > - **Remove** function `new_dt`, `date_today`
 > - fix bug `datediff`

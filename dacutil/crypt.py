@@ -45,13 +45,14 @@ def decrypt(encoded_text: bytes | str, key: bytes | str) -> bytes | None:
         return None
 
 
-def encrypt_b64(data: str | bytes, key: bytes) -> str:
+def encrypt_b64(data: str | bytes, key: bytes, wrap: int | None = None) -> str:
     """
     Encrypts the input data using the provided key and returns the result as a base64 encoded string.
 
     Args:
         data (str | bytes): The data to be encrypted, either as a string or bytes.
         key (bytes): The key used for encryption.
+        wrap (int | None, optional): wrap encoded lines after COLS character if None is no wrapping. Defaults to None.
 
     Returns:
         str: The base64 encoded encrypted data.
@@ -74,7 +75,10 @@ def decrypt_b64(encoded_text: str | bytes, key: bytes) -> str | None:
     """
     if isinstance(encoded_text, str):
         encoded_text = encoded_text.encode()
+
     try:
+        encoded_text = bytes(encoded_text)
+        encoded_text = encoded_text.replace(b"\r\n", b"").replace(b"\n", b"")
         b: bytes | None = decrypt(b64decode(encoded_text), key)
         if b is None:
             return None
