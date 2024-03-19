@@ -2,34 +2,77 @@
 
 import pytest
 
-from addict import Dict as Addict
-
 from dacutil import (
     Addict,
-    datediff,
     get_config,
-    check_mod11,
-    df_strip,
-    worker,
 )
+from dacutil import crypt
+
+
+def age_crypted_file(filepath, pub_key: str):
+    fileage = filepath.replace("file://", "") + ".age"  # type: ignore
+    with open(fileage, "w+") as fw:
+        fw.write(crypt.age_encrypt(get_config(filepath, "raw")["raw"], pub_key))  # type: ignore
+    return fileage
+
+
+def passphrase_crypted_file(filepath, key: str):
+    fileage = filepath.replace("file://", "") + ".age"  # type: ignore
+    with open(fileage, "w+") as fw:
+        fw.write(crypt.encrypt_b64(get_config(filepath, "raw")["raw"], key))  # type: ignore
+    return fileage
 
 
 class TestGetConfig:
+    _test_configs: list[str] = [
+        "test/tmp/config.ini",
+        "test/tmp/config.json",
+        "file://test/tmp/config.ini",
+        "file://test/tmp/config.json",
+        "file://test/tmp/config.toml",
+        "file://test/tmp/config.yaml",
+    ]
+
     # Retrieves configuration from a file URI with no authentication or headers
     def test_retrieves_config_from_filepath(self):
         # Arrange
-        files = [
-            "test/config.ini",
-            "test/config.json",
-            "file://test/config.ini",
-            "file://test/config.json",
-            "file://test/config.toml",
-            "file://test/config.yaml",
-        ]
+        files: list[str] = self._test_configs
         expected_config = Addict({"section": {"key": "value"}})
         for filepath in files:
             # Act
             config = get_config(filepath)
+
+            # Assert
+            assert isinstance(config, Addict)
+            assert config == expected_config
+
+    def test_encrypts_config_from_filepath(self):
+        # Arrange
+        files: list[str] = self._test_configs
+
+        expected_config = Addict({"section": {"key": "value"}})
+        pub, pri = crypt.age_genkey()
+        for filepath in files:
+            # Act
+            fileage = age_crypted_file(filepath, pub)  # type: ignore
+        for filepath in files:
+            config = get_config(filepath + ".age", age_key=pri)
+
+            # Assert
+            assert isinstance(config, Addict)
+            assert config == expected_config
+
+    def test_passphrases_config_from_filepath(self):
+        files: list[str] = self._test_configs
+
+        expected_config = Addict({"section": {"key": "value"}})
+        key = crypt.gen_key()
+        for filepath in files:
+            # Act
+            fileage = passphrase_crypted_file(filepath, key)  # type: ignore
+
+        for filepath in files:
+            config = get_config(filepath + ".age", passphrase=key)
 
             # Assert
             assert isinstance(config, Addict)

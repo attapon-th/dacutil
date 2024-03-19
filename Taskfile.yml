@@ -10,10 +10,11 @@ tasks:
     cmds:
       - task --list-all
     silent: true
-
+  pip:
+    - pip install .
   test:
     cmds:
-      - pip install .
+      # - pip install .
       - poetry run pytest
 
   update:
@@ -28,5 +29,6 @@ tasks:
 
   pub:
     cmds:
+      - task pip test
       - task build
       - poetry publish
