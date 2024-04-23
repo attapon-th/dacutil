@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dacutil"
-version = "0.3.3"
+version = "0.4.0"
 description = "For Data Analytic"
 authors = ["Attapon Thanawong <attapon_srem@hotmail.com>"]
 readme = "README.md"
@@ -16,6 +16,7 @@ pyyaml = ">=6.0.0"
 tomli = ">=2.0.0"
 cryptography = ">=41.0.0"
 pyrage = ">=1.1.0"
+pycryptodome = ">=3.17.0"
 
 
 [tool.poetry.group.dev.dependencies]
