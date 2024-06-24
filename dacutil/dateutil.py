@@ -2,6 +2,7 @@ from datetime import datetime, date
 from typing import Union, Literal
 import pyarrow as pa
 import pandas as pd
+from pyarrow import compute
 
 
 def datediff(
