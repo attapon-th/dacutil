@@ -1,4 +1,3 @@
-from locale import CHAR_MAX
 from pandas import DataFrame
 
 
