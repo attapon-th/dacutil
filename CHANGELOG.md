@@ -1,5 +1,9 @@
 # Changelogs
 
+##  [0.4.4]  2024-06-24
+> add function `df_fixchar` and `df_replace`
+> optional: function `get_config` agument: `age_key` check `AGE-SECRET-KEY-` 
+
 
 ## [0.3.1]  2024-03-11
 > **Update** `encrypt_b64` add option `wrap` for wrapping encoded lines

@@ -84,6 +84,9 @@ def get_config(
     if data is None:
         raise ErrConfigNotFound
     if age_key is not None:
+        age_key = age_key.upper()
+        if age_key.upper().startswith("AGE-SECRET-KEY-") is False:
+            age_key = f"AGE-SECRET-KEY-{age_key}"
         data = crypt.age_decrypt(data, age_key)
     if passphrase is not None:
         data = crypt.decrypt_b64(data, passphrase)

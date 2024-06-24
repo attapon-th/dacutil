@@ -7,7 +7,7 @@ from dacutil.addict import Addict
 from dacutil import crypt
 from dacutil.pyencryption import pyencrypt, pydecrypt
 
-__version__ = "0.4.3"
+__version__ = "0.4.4"
 
 __all__ = [
     "Addict",

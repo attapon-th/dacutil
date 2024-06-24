@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dacutil"
-version = "0.4.3"
+version = "0.4.4"
 description = "Function Tools For Data Analytic"
 authors = ["Attapon Thanawong <attapon_srem@hotmail.com>"]
 readme = "README.md"
